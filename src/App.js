@@ -1,24 +1,53 @@
-import logo from './logo.svg';
+
 import './App.css';
+import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Home from './pages/Home';
+
+import { createMuiTheme, MuiThemeProvider, CssBaseline, Container } from '@material-ui/core';
+
+
+import { amber, indigo } from '@material-ui/core/colors';
+
+/*  Theme overriding
+see: https://material-ui.com/customization/default-theme/#default-theme*/
+const theme = createMuiTheme({
+  palette: {
+      primary:{ main: amber[600]},
+      secondary: {main: indigo[500]}, /*for color obj see https://material-ui.com/customization/color/#color 
+                        using an color obj, it applies the variations automatically (dark, light)*/
+      background: {
+        default: '#4a4a4a'
+      },
+  },
+  //typography: {}
+});
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MuiThemeProvider theme={theme}>
+    <CssBaseline />
+    <Router>
+      <Switch>
+        <Route exact path="/">
+            <Login/>
+        </Route>
+
+        <Route path="/register">
+          <div style={{}}>
+          <Register />
+          </div>
+        </Route>
+
+        <Route path="/home">
+            <Home/>
+        </Route>
+      </Switch>
+    </Router>
+    </MuiThemeProvider>
   );
 }
 
