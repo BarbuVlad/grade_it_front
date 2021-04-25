@@ -14,17 +14,22 @@ import { useState } from "react";
 import { useHistory } from 'react-router-dom';
 
 import useStyles from '../styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { setJwt } from "../redux/jwtSlice";
 
 const Login = () => {
-    const classes = useStyles();
+    //states and variabiles
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
-
+    //redux states
+    const jwt = useSelector((state)=>state.jwt);
+    const dispatch = useDispatch();
 
     const history = useHistory();
+    const classes = useStyles();
+
     //handlers
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
@@ -49,8 +54,10 @@ const Login = () => {
             
             if(data["code"]=="201"){
                 //login successfull
+                await dispatch(setJwt(data));
+                console.log(jwt);
                 alert("Login successfull.");
-                history.push('/home');
+                history.push('app/home');
             }
             else{
                 setEmailError(true);
@@ -58,8 +65,6 @@ const Login = () => {
                 alert("Login failed! Wrong email or password");
 
             }
-            
-            
         }
 
     }

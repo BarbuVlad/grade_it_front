@@ -86,6 +86,20 @@ const Register = () => {
                 return;
             }
 
+            if(data["code"]==403){ //validation error
+                setRegisterFail(true);
+                setPopupText(data["message"]);
+                setPopupTitle("Error");
+                return;
+            }
+            else{ // unkwown error (500?)
+                setRegisterFail(true);
+                setPopupText("Registration faied!");
+                setPopupTitle("Error");
+                return;
+            }
+
+
             //alert("Account created successfully. Go to login");
         }
     }

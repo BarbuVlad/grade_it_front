@@ -8,8 +8,10 @@ import Home from './pages/Home';
 
 import { createMuiTheme, MuiThemeProvider, CssBaseline, Container } from '@material-ui/core';
 
-
 import { amber, indigo } from '@material-ui/core/colors';
+import InsideController from './pages/InsideController';
+
+import Layout from './Layout';
 
 /*  Theme overriding
 see: https://material-ui.com/customization/default-theme/#default-theme*/
@@ -30,7 +32,9 @@ function App() {
   return (
     <MuiThemeProvider theme={theme}>
     <CssBaseline />
+    
     <Router>
+      
       <Switch>
         <Route exact path="/">
             <Login/>
@@ -45,7 +49,13 @@ function App() {
         <Route path="/home">
             <Home/>
         </Route>
+
+        <Route path="/app">
+            <InsideController/>
+        </Route>
+
       </Switch>
+    
     </Router>
     </MuiThemeProvider>
   );
