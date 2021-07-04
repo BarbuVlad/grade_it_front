@@ -50,7 +50,6 @@ const useStyles = makeStyles( (theme) => {
 
         alignItems:"center",
         justifyContent:"center",
-
     },
 
     toolbar: {

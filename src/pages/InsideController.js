@@ -9,9 +9,9 @@ const InsideController = () => {
         <Container style={{display: "grid", placeItems:"center"}}>
             <Layout>
                 <Switch>
-                    <Route exact path={path}>
+                    {/* <Route exact path={path}>
                     <h1>------------------------------------------------------------</h1>
-                    </Route>
+                    </Route> */}
 
                     <Route path={`${path}/home`}>
                         <Home />
