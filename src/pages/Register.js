@@ -4,11 +4,12 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
-import Popup from 'reactjs-popup';
-import PopupBox from '../popupBox';
-
-import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 
 import { useState } from "react";
@@ -18,6 +19,7 @@ import { useHistory } from 'react-router-dom';
 import useStyles from '../styles';
 
 const Register = () => {
+    const history = useHistory();
 
     //States
     const [email, setEmail] = useState('');
@@ -33,13 +35,21 @@ const Register = () => {
     const [registerFail, setRegisterFail] = useState(false);
     const [popupText, setPopupText] = useState('');
     const [popupTitle, setPopupTitle] = useState(`Successfull`);
+    const [openRegister, setOpenRegister] = useState(false);
 
     const classes = useStyles();
     
+    /*Handlers */
+
+    const handleCloseRegister = () => {
+        setOpenRegister(false);
+    };
+
     //Methods and handlers
     const handleRegisterSubmit = async (e) => {
         e.preventDefault();
 
+        
         setEmailError(false);
         setPasswordError(false);
         setRepeatPasswordError(false);
@@ -52,14 +62,14 @@ const Register = () => {
             if(password!==repeatPassword){
                 setRepeatPasswordError(true);
                 setRegisterFail(true);
-                setPopupText("Incorect password");
-                setPopupTitle("Error");
-              //  alert("Password must be the same");
+                alert("Password must be the same");
+                //setOpenRegister(true);
                 return;
             }
             console.log(email, password);
           //history.push('/login');
           //fetch login from server
+          try{
             const register_result = await fetch('http://192.168.206.129:5000/users', {
                 method: 'POST',
                 headers: {"Content-type": "application/json"},
@@ -67,41 +77,50 @@ const Register = () => {
             });
             const data = await register_result.json();
             //see server docs for info about this request
-            if(data["code"]==401){ //error occured on server (unknown)
+            if(data["code"]==-1){ //error occured on server (unknown)
                 setRegisterFail(true);
                 setPopupText("Error occured on server, please try again!");
                 setPopupTitle("Error");
+                setOpenRegister(true);
                 return;
             }
-            if(data["code"]==402){//user exists
-                setRegisterFail(true);
-                setPopupText("A user has already been registered with this email");
-                setPopupTitle("Error");
-                return;
-            }
-            if(data["code"]==201){//success
+            if(data["code"]==0){//success
                 setRegisterFail(false);
-                setPopupText(`You have been registered! An email with the confirmation link was sent to ${email}`);
+                setPopupText(`You have been registered!`);
                 setPopupTitle("Success");
+                setOpenRegister(true);
                 return;
             }
 
-            if(data["code"]==403){ //validation error
+            if(data["code"]==1 || data["code"]==2 || data["code"]==4){ //validation error or other error
                 setRegisterFail(true);
                 setPopupText(data["message"]);
                 setPopupTitle("Error");
-                return;
-            }
-            else{ // unkwown error (500?)
-                setRegisterFail(true);
-                setPopupText("Registration faied!");
-                setPopupTitle("Error");
+                setOpenRegister(true);
                 return;
             }
 
+            if(data["code"]==3){//user exists
+                setRegisterFail(true);
+                setPopupText("A user has already been registered with this email");
+                setPopupTitle("Error");
+                setOpenRegister(true);
+                return;
+            }
+        }catch(err){
+             // unkwown error (500?)
+                setRegisterFail(true);
+                setPopupText(`Registration faied (server or network error)
+                    ${err}`);
+                setPopupTitle("Error");
+                setOpenRegister(true);
+                return;
+        }
+ 
 
             //alert("Account created successfully. Go to login");
         }
+        
     }
 
     return (
@@ -116,7 +135,7 @@ const Register = () => {
             <TextField 
             onChange={(e) => setEmail(e.target.value)}
             className={classes.field}
-            label="EMAIL"
+            label="email"
             variant="outlined"
             fullWidth
             required
@@ -149,20 +168,38 @@ const Register = () => {
             />
 
         <div>
-        <PopupBox
-
-        isError={(repeatPasswordError || passwordError || emailError || registerFail)}
-        title={popupTitle}
-        body={popupText}
-        trigger_function={<Button 
+        <Button 
             className={classes.btn}
             type="submit"
             color="primary"
             variant="contained"
         > 
             Register
-        </Button>}
-        ></PopupBox>
+        </Button>
+                    {/* ==== Register result dialog ===*/}
+                    <Dialog
+              open={openRegister}
+              onClose={handleCloseRegister}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+            
+              <div style={{backgroundColor:"#3d3d3d", color: registerFail?"#d45559":"#9bdb5a", textAlign:"center"}}>
+              <DialogTitle id="alert-dialog-title">{popupTitle}</DialogTitle>
+              <DialogContent style={{color:"white"}}>
+                  {popupText}   
+              </DialogContent>
+                <div style={{display:"flex", justifyContent:"center", marginTop:10}}>
+                  <DialogActions>
+                    <Button onClick={handleCloseRegister} color="primary">
+                      OK
+                    </Button>
+                  </DialogActions>
+                </div>
+              </div>
+            </Dialog>
+            {/* ==== -------------------- ===*/}
+        
 
         </div>
         </form>
@@ -181,16 +218,4 @@ const Register = () => {
 
     )
 }
-//{((repeatPasswordError && passwordError && emailError) || registerClicked) ? <div> <PopupBox open_bool={registerClicked}/> </div>:<div>He</div> }
-// {(repeatPasswordError && passwordError && emailError) || registerClicked ? <div>He</div> : <PopupBox className={classes.popup_box} open_bool={true}/>}
 export default Register;
-
-            /*
-                fetch('http://192.168.206.129:5000/users', {
-                method: 'POST',
-                headers: {"Content-type": "application/json"},
-                body: JSON.stringify({email, password})
-            }).then((res) => {alert("Account created successfully. Go to login");
-                                console.log(res)}) //history.push('/')
-            
-            */

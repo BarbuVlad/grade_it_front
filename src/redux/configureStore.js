@@ -12,9 +12,11 @@ Takes in all slices to further provide them to the general app  */
 
 import { configureStore, combineReducers, getDefaultMiddleware } from '@reduxjs/toolkit';
 import jwtSlice from "./jwtSlice";
+import menuSlice from "./menuSlice";
 
 const reducer = combineReducers({
     jwt: jwtSlice,
+    menu: menuSlice
 
 });
 

@@ -7,7 +7,11 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 
-import { makeStyles } from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { useState } from "react";
 
@@ -27,6 +31,12 @@ const Login = () => {
     const jwt = useSelector((state)=>state.jwt);
     const dispatch = useDispatch();
 
+    //Other states
+    const [loginFail, setLoginFail] = useState(false);
+    const [popupText, setPopupText] = useState('');
+    const [popupTitle, setPopupTitle] = useState(`Successfull`);
+    const [openLogin, setOpenLogin] = useState(false);
+
     const history = useHistory();
     const classes = useStyles();
 
@@ -40,9 +50,10 @@ const Login = () => {
         if (password === '') {setPasswordError(true)}
         //validate
         if(email && password) {
-            console.log(email, password);
+            //console.log(email, password);
             //fetch login from server
             
+            try{
             const login_result  = await   fetch('http://192.168.206.129:5000/users/login', {
                 method: 'POST',
                 headers: {"Content-type": "application/json"},
@@ -52,23 +63,37 @@ const Login = () => {
             const data = await login_result.json();
             console.log(data);
             
-            if(data["code"]=="201"){
+            if(data["code"]==0){
                 //login successfull
-                await dispatch(setJwt(data));
-                console.log(jwt);
-                alert("Login successfull.");
+                dispatch(setJwt(data));
+                setLoginFail(false);
+                localStorage.setItem("token", data["token"]);
+                localStorage.setItem("id", data["id"]);
                 history.push('app/home');
-            }
+            } 
             else{
-                setEmailError(true);
-                setPasswordError(true);
-                alert("Login failed! Wrong email or password");
+                setLoginFail(true);
+                setPopupText(data["message"]);
+                setPopupTitle("Error");
+                setOpenLogin(true);
+                return;
 
+            }
+        }catch(err){
+            setLoginFail(true);
+            setPopupText(`Server or network error. Try again!`);
+            setPopupTitle("Error");
+            setOpenLogin(true);
+            return;
             }
         }
 
     }
+    const handleCloseLogin = () => {
+        setOpenLogin(false);
+    };
     return (
+        <Container maxWidth="md">
     <Grid container style={{display: "flex", justifyContent: "center"}}>
     <Grid item xs={6} xl={6} className={classes.container}>
         
@@ -112,7 +137,29 @@ const Login = () => {
                 Login
             </Button>
         </form>
-
+    {/* ==== Login result dialog ===*/}
+    <Dialog
+              open={openLogin}
+              onClose={handleCloseLogin}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+            
+              <div style={{backgroundColor:"#3d3d3d", color: loginFail?"#d45559":"#9bdb5a", textAlign:"center"}}>
+              <DialogTitle id="alert-dialog-title">{popupTitle}</DialogTitle>
+              <DialogContent style={{color:"white"}}>
+                  {popupText}   
+              </DialogContent>
+                <div style={{display:"flex", justifyContent:"center", marginTop:10}}>
+                  <DialogActions>
+                    <Button onClick={handleCloseLogin} color="primary">
+                      OK
+                    </Button>
+                  </DialogActions>
+                </div>
+              </div>
+            </Dialog>
+    {/* ==== -------------------- ===*/}
         
         </Grid> {/*grid item 1 - login page */ }
 
@@ -125,7 +172,7 @@ const Login = () => {
             <div>
                 <AccountBoxIcon color="primary" style={{ fontSize: 65, marginTop: 64 }}/>
                 <Typography className={classes.root}>
-                        <Link href="/register" onClick={console.log("")}>
+                        <Link href="/register" onClick={()=>{}}>
                             Register here!
                         </Link>
                 </Typography>
@@ -133,7 +180,9 @@ const Login = () => {
             
         </Grid>
 
-        </Grid> //grid container
+        </Grid> 
+
+        </Container>
     )
 }
 

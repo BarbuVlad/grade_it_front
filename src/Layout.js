@@ -1,91 +1,63 @@
-import { Container, makeStyles, Grid } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
+import { Container, makeStyles, Grid, Button } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { AddCircleOutlined, SubjectOutlined } from '@material-ui/icons';
+
 import { useHistory, useLocation} from 'react-router';
-//import Link from "react-router-dom/Link";
-import Link from '@material-ui/core/Link';
 
 import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import ClassesDrawer from './components/ClassesDrawer';
+import HomeDrawer from './components/HomeDrawer';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 
-const drawerWidth = 240;
+import { useSelector, useDispatch } from "react-redux";
+import useStyles from './styles/layoutStyles';
+import {appBarHeight} from './styles/layoutStyles';
 
-const appBarHeight = 65;
-const useStyles = makeStyles( (theme) => {
-    return {
-    page: {
-        width: "100%",
-    },
-
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-
-    drawerPaper: {
-        width: drawerWidth,
-        height:"70%"
-
-    },
-    root: {
-        display:'flex',
-    },
-    active: {
-        background: '#f4f4f4'
-    },
-
-    appbar: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        //width: "100%",
-        height: appBarHeight,
-        marginLeft: drawerWidth,
-
-        alignItems:"center",
-        justifyContent:"center",
-    },
-
-    toolbar: {
-        marginTop: "75px",
-        marginLeft: drawerWidth
-    },
-    //mixin from theme
-    //toolbar: theme.mixins.toolbar
-    link: {
-        marginLeft:"22px",
-        marginRight:"22px",
-        fontWeight:"bold",
-        fontSize:"15px"
-    }
-}
-});
-
+import { useEffect, useState } from "react";
 const Layout = ({children}) => {
     const classes = useStyles();
 
     const history = useHistory();
     const location = useLocation();
 
+    const menuItems = useSelector((state)=>state.menu);
+
+    const handleLogout = () => {
+        localStorage.setItem("token", null);
+        localStorage.setItem("id", null);
+        history.push("/");
+    }
+
     //menu list of items:
-    const menuItems = [
-        {
-            text: "TestText",
-            icon: <SubjectOutlined color="secondary" />,
-            path: '/app/home'
-        },
-        {
-            text: "TestText2",
-            icon: <AddCircleOutlined color="secondary" />,
-            path: '/'
-        },
-    ];
+    // const menuItems = [
+    //     {
+    //         text: "TestText",
+    //         icon: <SubjectOutlined color="secondary" />,
+    //         path: '/app/home'
+    //     },
+    //     {
+    //         text: "TestText2",
+    //         icon: <AddCircleOutlined color="secondary" />,
+    //         path: '/'
+    //     },
+    // ];
+    useEffect(() => {
+
+        console.log("----<",location.pathname);
+        //dispatch(setJwt({"token":_token, "id":_id}));
+    
+
+        // return () => {
+          
+        // }
+      }, []);
 
     return (
 
@@ -100,51 +72,61 @@ const Layout = ({children}) => {
             elevation={0}
             position="fixed">
                 <Toolbar className={classes.appbar}>
-                    <div style={{alignItems:"center",}}>
-                        <Link href="/app/home" color="secondary"  className={classes.link}>Home</Link>
-                        <Link href="/app/classes" color="secondary" className={classes.link}>Classes</Link>
-                        <Link href="/app/profile" color="secondary" className={classes.link}>Profile and settings</Link>
+                    <div className={classes.navigation_buttons}>
+                        <Button
+                        disableElevation
+                        color="secondary"
+                        variant="outlined"
+                        size="large"
+                        onClick={()=>{history.push("/app/home")}}
+                        style={{marginRight:25}}
+                        >
+                            <b>Home</b>
+                        </Button>
+
+                        <Button
+                        disableElevation
+                        color="secondary"
+                        variant="outlined"
+                        size="large"
+                        onClick={()=>{history.push("/app/classes")}}
+                        style={{marginRight:25}}
+                        >
+                           <b> Classes</b>
+                        </Button>
+
+                        <Button
+                        disableElevation
+                        color="secondary"
+                        variant="outlined"
+                        size="large"
+                        onClick={()=>{history.push("/app/profile")}}
+                        style={{marginRight:25}}
+                        >
+                           <b> Profile and settings </b>
+                        </Button>
                     </div>
+                    <Button
+                        variant="outlined"
+                        size="large"
+                        onClick={handleLogout}
+                        style={{marginRight:25}}
+                        className={classes.logout_bnt}
+                        >
+                            Logout
+                    </Button>
+
                 </Toolbar>
             </AppBar>
 
 
             {/*drawer on the left side */}
-            <Drawer 
-            className={classes.drawer}
-            variant="permanent"
-            anchor="left"
-            classes={{paper: classes.drawPaper}}
-             //overrides the defailt elements inside
-
-            >
-                <div>
-                    <Typography
-                    variant="h5" style={{textAlign:"center", marginTop:appBarHeight/4}}>
-                        Note
-                    </Typography>
-                    </div>
-
-                    <Divider style={{marginTop:appBarHeight/4}}/>
-                    {/*List of menu items */}
-                    <List>
-                        {menuItems.map(item => (
-                            <ListItem
-                            button
-                            key={item.text}
-                            onClick={()=>history.push(item.path)}
-                            className={location.pathname == item.path ?
-                            classes.active : null}
-                            >
-                              <ListItemIcon>{item.icon}</ListItemIcon>
-                              <ListItemText primary={item.text}/>
-                            </ListItem>
-
-                        ))}
-                    </List>
-
-            </Drawer>
-
+            {location.pathname === "/app/classes" || 
+            location.pathname === "/app/classes/student" ||
+            location.pathname === "/app/classes/teacher"
+             ? <ClassesDrawer /> : <></>}
+            {location.pathname === "/app/home" ? <HomeDrawer /> : <></>}
+            
         </Grid>
     )
 }
