@@ -35,6 +35,9 @@ const useStyles = makeStyles( (theme) => {
     },
     root: {
         display:'flex',
+        //justifyContent:"flex-start",
+        //alignItems:"flex-start",
+        padding:10
     },
     active: {
         color: "white",
@@ -73,7 +76,7 @@ const useStyles = makeStyles( (theme) => {
 
     toolbar: {
         marginTop: "75px",
-        marginLeft: 100//drawerWidth
+        marginLeft: 100,//drawerWidth,
     },
     //mixin from theme
     //toolbar: theme.mixins.toolbar

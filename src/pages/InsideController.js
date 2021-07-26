@@ -60,7 +60,8 @@ const InsideController = () => {
 
     return (
         <>
-        <Container style={{display: "grid", placeItems:"center"}}>
+        {/* style={{display: "grid", placeItems:"center"}} */}
+        <Container >
             <Layout>
                 <Switch>
                     {/* <Route exact path={path}>
