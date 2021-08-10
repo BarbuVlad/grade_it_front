@@ -22,6 +22,7 @@ import Layout from '../Layout';
 import Home from './Home';
 import Classes from './Classes';
 import ProfileAndSettings from './ProfileAndSettings';
+import NotFound from './NotFound';
 
 
 const InsideController = () => {
@@ -80,6 +81,7 @@ const InsideController = () => {
                         <ProfileAndSettings />
                     </Route>
 
+                    <Route path='*' exact={true} component={NotFound} />
                 </Switch>
             </Layout>
             </Container>

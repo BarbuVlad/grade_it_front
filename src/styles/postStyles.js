@@ -14,8 +14,8 @@ const useStyles = makeStyles( (theme) => {
 
         backgroundColor: "#4f4f4f",
         color:"white",
-        minWidth: 275,
-        maxWidth: 600,
+        minWidth: "55%",
+        maxWidth: "85%",
 
     },
     header: {

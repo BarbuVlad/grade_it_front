@@ -11,6 +11,7 @@ import { amber, indigo } from '@material-ui/core/colors';
 import InsideController from './pages/InsideController';
 
 import Layout from './Layout';
+import NotFound from './pages/NotFound';
 
 /*  Theme overriding
 see: https://material-ui.com/customization/default-theme/#default-theme*/
@@ -52,6 +53,7 @@ function App() {
         <Route path="/app">
             <InsideController/>
         </Route>
+        <Route path='*' exact={true} component={NotFound} />
 
       </Switch>
     

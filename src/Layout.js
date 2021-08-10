@@ -21,6 +21,7 @@ import useStyles from './styles/layoutStyles';
 import {appBarHeight} from './styles/layoutStyles';
 
 import { useEffect, useState } from "react";
+import SingleClassDrawer from './components/SingleClassDrawer';
 const Layout = ({children}) => {
     const classes = useStyles();
 
@@ -126,6 +127,8 @@ const Layout = ({children}) => {
             location.pathname === "/app/classes/teacher"
              ? <ClassesDrawer /> : <></>}
             {location.pathname === "/app/home" ? <HomeDrawer /> : <></>}
+            {location.pathname.match(/^\/app\/classes\/.\d*$/) ? <SingleClassDrawer id={location.pathname.match(/\d*$/)}/> : <></>}
+            {location.pathname.match(/^\/app\/classes\/.\d*\/.*$/) ? <SingleClassDrawer id={location.pathname.match(/\d+/gi)}/> : <></>}
             
         </Grid>
     )

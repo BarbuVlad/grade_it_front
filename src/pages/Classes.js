@@ -1,16 +1,21 @@
 
 import { useState, useEffect } from "react";
-import { Container } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route,  useRouteMatch, useHistory} from 'react-router-dom';
 import ClassCard from '../components/ClassCard';
 import { Divider, Typography } from '@material-ui/core';
 import List from "@material-ui/core/List";
 
 import Grid from '@material-ui/core/Grid';
+import SingleClass from "./SingleClass";
+import NotFound from "./NotFound";
+
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import GroupIcon from '@material-ui/icons/Group';
 
 const Classes = () => {
     let { path, url } = useRouteMatch();
-
+    const history = useHistory();
     const [classes, setClasses] = useState([]);
     useEffect(()=>{
         const fetch_classes = async () =>{
@@ -44,16 +49,49 @@ const Classes = () => {
         fetch_classes();
 
     },[]);
+
+    const handleDeleteClass = (id) => {
+        setClasses(classes.filter(class_ => class_["id_class"]!=id));
+    }
     return (
      <Container style={{color:"white"}}>
-            
-
                 <Switch>
                     <Route exact path={path}>
-                    <ClassCard />
+                        <div style={{
+                            paddingTop:"25%",
+                            display: "grid",
+                            gridTemplateColumns: "1fr 1fr",
+                            gridTemplateRows: "200px 200px",
+                            
+                            //grid-template-rows: [row1-start] 25% [row1-end] 100px [third-line] auto [last-line],
+                        }}>
+                    <Button 
+                        variant="outlined"
+                        color="primary"
+                        size="large"
+                        className={classes.button}
+                        onClick={()=>{history.push("/app/classes/student")}}
+                        startIcon={<GroupIcon style={{fontSize:38}}/>}
+                        style={{fontSize:38 ,marginLeft:10}}
+                        >
+                            As student 
+                        </Button>
+
+                        <Button 
+                        variant="outlined"
+                        color="primary"
+                        size="large"
+                        className={classes.button}
+                        onClick={()=>{history.push("/app/classes/teacher")}}
+                        startIcon={<AssignmentIndIcon style={{fontSize:38}}/>}
+                        style={{fontSize:38,marginRight:10}}
+                        >
+                            As teacher
+                        </Button>
+                        </div>
                     </Route>
 
-                    <Route path={`${path}/student`}>
+                    <Route exact path={`${path}/student`}>
                     
                     {
                         (typeof classes === "object") ? 
@@ -66,14 +104,12 @@ const Classes = () => {
                          >
                         {classes.map((_class)=>(
                             _class["role"] === "student" ? 
-                            
                                 <ClassCard
                                 item={_class}
+                                handleDeleteClass={handleDeleteClass}
                                 />
-                            
                             :
                             <></>
-                            
                         ))}
                         </Grid>
                         :
@@ -84,7 +120,7 @@ const Classes = () => {
                     }
                     </Route>
 
-                    <Route path={`${path}/teacher`}>
+                    <Route exact path={`${path}/teacher`}>
                     {
                         (typeof classes === "object") ? 
                         <Grid   
@@ -95,15 +131,14 @@ const Classes = () => {
                         spacing={2} 
                         >
                         {classes.map((_class)=>(
-                            _class["role"] === "teacher" ? 
+                            _class["role"] === "teacher" || _class["role"] === "owner" ? 
                             
                                 <ClassCard
                                 item={_class}
+                                handleDeleteClass={handleDeleteClass}
                                 />
-                            
                             :
                             <></>
-                            
                         ))}
                         </Grid>
                         :
@@ -114,6 +149,11 @@ const Classes = () => {
                     }
                     </Route>
 
+                    <Route path={`${path}/:id`}>
+                        <SingleClass />
+                    </Route>
+
+                    <Route path='*' exact={true} component={NotFound} />
                 </Switch>
 
     </Container>

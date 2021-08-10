@@ -11,13 +11,17 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Tooltip from '@material-ui/core/Tooltip';
 
+import Collapse from '@material-ui/core/Collapse';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import useStyles from '../styles/classCardStyle';
+import clsx from 'clsx';///< to merge styles
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -25,11 +29,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 // import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const ClassCard = ({item}) => {
+import { useHistory } from 'react-router-dom';
+
+const ClassCard = ({item, handleDeleteClass}) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);///< menu state
     const [openLeaveClass, setOpenLeaveClass] = useState(null);///< class leave dialog 
 
+    const [expandedDescription, setExpandedDescription] = useState(false);
+
+    const history = useHistory();
 
     const handleClickMenu = (event) => {
       setAnchorEl(event.currentTarget);
@@ -41,13 +50,45 @@ const ClassCard = ({item}) => {
 
     const handleGoToClass = () => {
       //go to class
+      //localStorage.setItem("temp_class_id", item["id_class"]);
+      const class_path ="/app/classes/" +  item["id_class"];
+      history.push(class_path);
 
     };
 
-    const handleLeaveClass = () => {
+    const handleLeaveClass = async () => {
       //open dialog for confirmation 
-      
+      const fetch_auth = async () => {
+        const auth_fetch = await fetch(`http://192.168.206.129:5000/classes/authorization`,{
+        method: 'POST',
+        headers:{"Content-Type": "application/json",
+                "x-auth-token": localStorage.getItem("token")},
+        body: JSON.stringify({"class_id":item["id_class"]})
+        });
+        const data = await auth_fetch.json();
+        return data["token"];
+    }
+    const fetch_leave = async (token_class) => {
+        const leave_fetch = await fetch(`http://192.168.206.129:5000/classes/leave_class`,{
+        method: 'DELETE',
+        headers:{"Content-Type": "application/json",
+                "x-auth-token": localStorage.getItem("token"),
+                "x-auth-token-class": token_class},
+        body: JSON.stringify({"class_id":item["id_class"]})
+        });
+        const data = await leave_fetch.json();
+        if (data["code"] == 0){
+          //send event up to parent component (posts page)
+          handleDeleteClass(item["id_class"]);
+        } else {
+          alert("Error at leaving class");
+        }
+      }
+      const x = await fetch_auth();
+      fetch_leave(x);
+
       setOpenLeaveClass(false);
+      handleCloseMenu();
     };
 
     return (
@@ -75,22 +116,40 @@ const ClassCard = ({item}) => {
                 open={Boolean(anchorEl)}
                 onClose={handleCloseMenu}
               >
-              <MenuItem onClick={handleCloseMenu}>Go to Class</MenuItem>
+              <MenuItem onClick={()=>{handleCloseMenu(); handleGoToClass();}}>Go to Class</MenuItem>
               <MenuItem onClick={()=>setOpenLeaveClass(true)} style={{color:"red"}}>Leave Class</MenuItem>
       </Menu>
 
-          <CardContent>
-            <Typography variant="body1" component="p">
-              {item["description"] === "" ? item["description"] : "Class has no description..."}
-            </Typography>
-          </CardContent>
-          <CardActions disableSpacing>
+      <CardActions disableSpacing>
 
-            <IconButton aria-label="add to favorites">
+            <IconButton aria-label="add to favorites" onClick={handleGoToClass}>
               <ExitToAppIcon  color="primary"/>
             </IconButton>
+
+        <IconButton
+          className={clsx(classes.expand, {
+            [classes.expandOpen]: expandedDescription,
+          })}
+          onClick={()=>{setExpandedDescription(!expandedDescription)}}
+          aria-expanded={expandedDescription}
+          aria-label="show more"
+        >
+          <Tooltip title={<p style={{fontSize:12}}>Description of class</p>}>
+          <ExpandMoreIcon color="primary"/>
+          </Tooltip>
+        </IconButton>
   
-          </CardActions>
+      </CardActions>
+
+      <Collapse in={expandedDescription} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography variant="body1" component="p">
+              {item["class_description"] === "" ?  "Class has no description..." : item["class_description"]}
+            </Typography>
+          </CardContent>
+      </Collapse>
+
+
 
         {/* Dialog for joining a class */}
               <Dialog
