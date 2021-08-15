@@ -35,8 +35,9 @@ const useStyles = makeStyles( (theme) => {
     },
     root: {
         display:'flex',
-        //justifyContent:"flex-start",
-        //alignItems:"flex-start",
+        // flexDirection:"row",
+        // justifyContent:"flex-end",
+        // alignItems:"flex-end",
         padding:10
     },
     active: {
@@ -75,8 +76,11 @@ const useStyles = makeStyles( (theme) => {
     },
 
     toolbar: {
-        marginTop: "75px",
-        marginLeft: 100,//drawerWidth,
+        flexDirection:"row",
+        justifyContent:"center",
+        alignItems:"center",
+        marginTop: "6em",
+        marginLeft: "10em",//drawerWidth,
     },
     //mixin from theme
     //toolbar: theme.mixins.toolbar

@@ -14,6 +14,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import useStyles from "../styles/postStyles";
 import { useState } from "react";
+import jwtDecode from "jwt-decode";
 
 const Post = ({post, inClassPost, handleRefresh}) => {
     const classes = useStyles();
@@ -60,7 +61,9 @@ const Post = ({post, inClassPost, handleRefresh}) => {
 
                     <Typography variant="body1" className={classes.header_username}>{post.author}</Typography>
                     {   inClassPost === true && 
-                    (localStorage.getItem("role") === "owner" || localStorage.getItem("role") === "teacher") ? //More options are available
+                    (localStorage.getItem("role") === "owner" 
+                    || localStorage.getItem("role") === "teacher"
+                    || jwtDecode(localStorage.getItem("token_class"))["id_user"] == post.author_id) ? //More options are available
                         <IconButton aria-label="delete" style={{color:"#8c8282"}} size="small" onClick={handleDeletePost}>
                               <DeleteIcon />
                         </IconButton>
