@@ -108,6 +108,7 @@ const MemberCard = ({item, handleRefresh}) => {
 
   {item["role"]==="owner" || localStorage.getItem("role")==="student"? <></> : 
       <CardActions disableSpacing>
+        {localStorage.getItem("role")==="student" || (localStorage.getItem("role")==="teacher" && item["role"]==="teacher") ? <></> : 
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expandedActions,
@@ -116,16 +117,17 @@ const MemberCard = ({item, handleRefresh}) => {
           aria-expanded={expandedActions}
           aria-label="show more"
         >
+          
           <Tooltip title={<p style={{fontSize:12}}>Block or confirm user</p>}>
           <ExpandMoreIcon color="primary"/>
           </Tooltip>
         </IconButton>
-  
+}
       </CardActions>
   }
       </CardActionArea>
 
-{localStorage.getItem("role")==="student" ? <></> : 
+{localStorage.getItem("role")==="student" || (localStorage.getItem("role")==="teacher" && item["role"]==="teacher") ? <></> : 
       <Collapse in={expandedActions} timeout="auto" unmountOnExit>
           <Button disabled={item["confirmed"] === 1 ? true : false}
           color="primary" 

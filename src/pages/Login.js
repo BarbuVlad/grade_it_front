@@ -69,6 +69,7 @@ const Login = () => {
                 setLoginFail(false);
                 localStorage.setItem("token", data["token"]);
                 localStorage.setItem("id", data["id"]);
+                localStorage.setItem("email", email);
                 history.push('app/home');
             } 
             else{

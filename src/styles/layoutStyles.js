@@ -21,6 +21,13 @@ const useStyles = makeStyles( (theme) => {
         width: "100%",
     },
 
+    email:{
+         alignSelf:"center",
+         alignContent:"flex-end",
+        //textAlign:"left"
+     },
+
+
     drawer: {
         width: drawerWidth,
         position: "fixed",
@@ -126,6 +133,8 @@ const useStyles = makeStyles( (theme) => {
       snackbar_fail:{
           root:{backgroundColor:"red"}
       },
+
+
       
     },
 }

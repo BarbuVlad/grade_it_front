@@ -45,7 +45,7 @@ const SingleClassDrawer = ({id}) => {
         {
             text: "statistics",
             icon: <EqualizerIcon color="primary" />,
-            path: `/app/classes/${id[0]}/stat`
+            path: `/app/classes/${id[0]}/statistics`
         },
     ];
 

@@ -31,8 +31,9 @@ const Layout = ({children}) => {
     const menuItems = useSelector((state)=>state.menu);
 
     const handleLogout = () => {
-        localStorage.setItem("token", null);
-        localStorage.setItem("id", null);
+        // localStorage.setItem("token", null);
+        // localStorage.setItem("id", null);
+        localStorage.clear();
         history.push("/");
     }
 
@@ -117,6 +118,7 @@ const Layout = ({children}) => {
                             Logout
                     </Button>
 
+                    <Typography className={classes.email}>{localStorage.getItem("email")}</Typography>
                 </Toolbar>
             </AppBar>
 

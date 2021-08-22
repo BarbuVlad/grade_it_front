@@ -66,6 +66,7 @@ const SingleClass = () => {
 
 
             } else { ///< failed authorization
+              setFetchFinish(true);
               setOpenAuth(true);
             }
             //console.log(data);
@@ -126,6 +127,7 @@ const SingleClass = () => {
               <DialogContent >
                     <DialogContentText id="alert-dialog-description" style={{color:"white"}}>
                         Class authentification failed for one of the reasons: <br/>
+                        - You have been blocked (contact class owner)<br />
                         - You are not a member of this class <br />
                         - Class does not exist <br />
                         - Some other server error 

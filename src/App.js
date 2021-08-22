@@ -12,6 +12,8 @@ import InsideController from './pages/InsideController';
 
 import Layout from './Layout';
 import NotFound from './pages/NotFound';
+import JoinClassExternal from './pages/JoinClassExternal';
+import StartPage from './pages/StartPage';
 
 /*  Theme overriding
 see: https://material-ui.com/customization/default-theme/#default-theme*/
@@ -52,6 +54,14 @@ function App() {
 
         <Route path="/app">
             <InsideController/>
+        </Route>
+
+        <Route  path="/join_class_external_link/:token">
+            <JoinClassExternal/>
+        </Route>
+
+        <Route path="/startPage">
+            <StartPage/>
         </Route>
         <Route path='*' exact={true} component={NotFound} />
 

@@ -21,6 +21,22 @@ const useStyles = makeStyles( (theme) => {
         justifyContent:"flex-start",//center
         alignItems:"flex-start",//center
     },
+    input: {
+        color: "white",
+      },
+      cssLabel: {
+        color : 'grey'
+      },
+
+      //progress at creating class
+      buttonProgress: {
+        color: "#08d126",
+        position: 'absolute',
+        top: '55%',
+        left: '47%',
+        marginTop: -12,
+        //marginLeft: -12,
+      },
 
 }
 });
