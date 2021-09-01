@@ -7,7 +7,7 @@ import Home from './pages/Home';
 
 import { createMuiTheme, MuiThemeProvider, CssBaseline, Container } from '@material-ui/core';
 
-import { amber, indigo } from '@material-ui/core/colors';
+import { amber, indigo, teal } from '@material-ui/core/colors';
 import InsideController from './pages/InsideController';
 
 import Layout from './Layout';
@@ -20,7 +20,7 @@ see: https://material-ui.com/customization/default-theme/#default-theme*/
 const theme = createMuiTheme({
   palette: {
       primary:{ main: amber[600]},
-      secondary: {main: indigo[500]}, /*for color obj see https://material-ui.com/customization/color/#color 
+      secondary: {main: teal[800]}, /*for color obj see https://material-ui.com/customization/color/#color 
                         using an color obj, it applies the variations automatically (dark, light)*/
       background: {
         default: '#4a4a4a'

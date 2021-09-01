@@ -42,10 +42,11 @@ const useStyles = makeStyles( (theme) => {
     },
     root: {
         display:'flex',
-        // flexDirection:"row",
-        // justifyContent:"flex-end",
-        // alignItems:"flex-end",
-        padding:10
+         //flexDirection:"column",
+         //justifyContent:"flex-start",
+        // alignItems:"flex-start",
+        paddingTop:10,
+        marginLeft:"-6vw"
     },
     active: {
         color: "white",
@@ -84,7 +85,7 @@ const useStyles = makeStyles( (theme) => {
 
     toolbar: {
         flexDirection:"row",
-        justifyContent:"center",
+        justifyContent:"flex-start",
         alignItems:"center",
         marginTop: "6em",
         marginLeft: "10em",//drawerWidth,

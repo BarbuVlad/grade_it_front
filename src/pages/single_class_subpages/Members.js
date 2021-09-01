@@ -106,7 +106,7 @@ const Members = () => {
         className={classes.root}
         spacing={8}
         >
-            <Grid item xs={12} sm={6} style={{ borderRightStyle:"outset", borderWidth:"1px", borderColor:"grey"}}>
+            <Grid item sm={12} md={6} style={{ borderRightStyle:"outset", borderWidth:"1px", borderColor:"grey"}}>
                 <div style={{display:"flex", flexDirection:"row", alignItems:"center",justifyContent:"center"}}>
                     <Typography variant="h4" >
                         Students
@@ -193,11 +193,11 @@ const Members = () => {
                          // focused: classes.cssFocused,
                         },
                       }}
-                      OutlinedInputProps={{
-                          classes:{
-                              root: classes.cssFocused,
-                          }
-                      }}
+                      // OutlinedInputProps={{
+                      //     classes:{
+                      //         root: classes.cssFocused,
+                      //     }
+                      // }}
                 />
               </DialogContent>
                 <div style={{display:"flex", justifyContent:"center"}}>

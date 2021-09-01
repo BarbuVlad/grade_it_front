@@ -102,9 +102,10 @@ const Classes = () => {
                         alignItems="flex-start"
                         spacing={2} 
                          >
-                        {classes.map((_class)=>(
+                        {classes.map((_class, index)=>(
                             _class["role"] === "student" ? 
                                 <ClassCard
+                                key={index}
                                 item={_class}
                                 handleDeleteClass={handleDeleteClass}
                                 />
@@ -130,10 +131,11 @@ const Classes = () => {
                         alignItems="flex-start"
                         spacing={2} 
                         >
-                        {classes.map((_class)=>(
+                        {classes.map((_class, index)=>(
                             _class["role"] === "teacher" || _class["role"] === "owner" ? 
                             
                                 <ClassCard
+                                key={index}
                                 item={_class}
                                 handleDeleteClass={handleDeleteClass}
                                 />

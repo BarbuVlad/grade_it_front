@@ -45,6 +45,15 @@ const useStyles = makeStyles((theme) => ({
         color:"#8a6907",
       },
     }, 
+    button_action_sch: {
+      minWidth:"50%",
+      fontSize: 17,
+      color:"#26a69a",
+
+      '&:disabled' : {
+        color:"#8a6907",
+      },
+    }, 
 
     button_action_block: {
       minWidth:"50%",

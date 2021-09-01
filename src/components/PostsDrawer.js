@@ -187,11 +187,11 @@ const ClassesDrawer = ({handleRefresh}) => {
                          // focused: classes.cssFocused,
                         },
                       }}
-                      OutlinedInputProps={{
-                          classes:{
-                              root: classes.cssFocused,
-                          }
-                      }}
+                      // OutlinedInputProps={{
+                      //     classes:{
+                      //         root: classes.cssFocused,
+                      //     }
+                      // }}
                 />
                 <TextField
                     margin="dense"
@@ -211,11 +211,11 @@ const ClassesDrawer = ({handleRefresh}) => {
                          // focused: classes.cssFocused,
                         },
                       }}
-                      OutlinedInputProps={{
-                          classes:{
-                              root: classes.cssFocused,
-                          }
-                      }}
+                      // OutlinedInputProps={{
+                      //     classes:{
+                      //         root: classes.cssFocused,
+                      //     }
+                      // }}
                 />
               </DialogContent>
                 <div style={{display:"flex", justifyContent:"center"}}>

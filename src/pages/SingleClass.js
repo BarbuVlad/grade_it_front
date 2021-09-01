@@ -100,8 +100,8 @@ const SingleClass = () => {
           <Posts />
         </Route>
 
-        <Route exact path={`${path}/tests`}>
-          <Tests />
+        <Route  path={`${path}/tests`}>
+          <Tests classId={id}/>
         </Route>
 
         <Route  exact path={`${path}/members`}>

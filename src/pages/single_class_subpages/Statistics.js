@@ -76,8 +76,6 @@ const Statistics = () => {
             }
   
         </Card>
-
-    
         </div>
     )
 }

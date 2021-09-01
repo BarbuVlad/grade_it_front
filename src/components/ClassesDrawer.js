@@ -297,11 +297,11 @@ const ClassesDrawer = () => {
                          // focused: classes.cssFocused,
                         },
                       }}
-                      OutlinedInputProps={{
-                          classes:{
-                              root: classes.cssFocused,
-                          }
-                      }}
+                      // OutlinedInputProps={{
+                      //     classes:{
+                      //         root: classes.cssFocused,
+                      //     }
+                      // }}
                 />
               </DialogContent>
                 <div style={{display:"flex", justifyContent:"center"}}>
@@ -350,11 +350,11 @@ const ClassesDrawer = () => {
                          // focused: classes.cssFocused,
                         },
                       }}
-                      OutlinedInputProps={{
-                          classes:{
-                              root: classes.cssFocused,
-                          }
-                      }}
+                      // OutlinedInputProps={{
+                      //     classes:{
+                      //         root: classes.cssFocused,
+                      //     }
+                      // }}
                 />
                 <TextField
                     margin="dense"
@@ -374,11 +374,11 @@ const ClassesDrawer = () => {
                          // focused: classes.cssFocused,
                         },
                       }}
-                      OutlinedInputProps={{
-                          classes:{
-                              root: classes.cssFocused,
-                          }
-                      }}
+                      // OutlinedInputProps={{
+                      //     classes:{
+                      //         root: classes.cssFocused,
+                      //     }
+                      // }}
                 />
                 <Tooltip title={<p style={{fontSize:12}}>Write emails separated by semicolon</p>}>
                 <TextField
@@ -399,11 +399,11 @@ const ClassesDrawer = () => {
                          // focused: classes.cssFocused,
                         },
                       }}
-                      OutlinedInputProps={{
-                          classes:{
-                              root: classes.cssFocused,
-                          }
-                      }}
+                      // OutlinedInputProps={{
+                      //     classes:{
+                      //         root: classes.cssFocused,
+                      //     }
+                      // }}
                 />
                 </Tooltip>
               </DialogContent>

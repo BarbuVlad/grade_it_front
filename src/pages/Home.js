@@ -7,7 +7,6 @@ import { AddCircleOutlined, SubjectOutlined } from '@material-ui/icons';
 
 import List from "@material-ui/core/List";
 
-import { setMenu } from "../redux/menuSlice";
 import Post from "../components/Post";
 
 import Dialog from '@material-ui/core/Dialog';
@@ -23,19 +22,6 @@ const Home = () => {
     const [openInviteConfirmation, setOpenInviteConfirmation] = useState(false);
     const [inviteConfirmationText, setInviteConfirmationText] = useState("");
 
-    // const dispatch = useDispatch();
-    // const menuItems = [
-    //     {
-    //         text: "TestText",
-    //         icon: <SubjectOutlined color="primary" />,
-    //         path: '/app/home'
-    //     },
-    //     {
-    //         text: "TestText2",
-    //         icon: <AddCircleOutlined color="primary" />,
-    //         path: '/'
-    //     },
-    // ];
     useEffect(() => {
 
         //dispatch(setMenu(menuItems));
@@ -120,8 +106,9 @@ const Home = () => {
         {
            (typeof feed === "object") ? 
            <List>
-           {feed.map((post)=>(
+           {feed.map((post, index)=>(
                <Post
+               key={index}
                post={post}
                />
            ))}

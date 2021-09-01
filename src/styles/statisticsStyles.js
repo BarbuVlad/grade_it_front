@@ -6,7 +6,10 @@ const useStyles = makeStyles((theme) => ({
       display:"flex",
       flexDirection:"column",
       justifyContent:"center",
-      maxWidth: "30em",
+      alignItems:"center",
+      alignSelf:"flex-start",
+      minWidth: "25em",
+      maxWidth: "35em",
       backgroundColor:"#3d3d3d",//#3d3d3d #6e6e6e
       color: "#ededed",
       //flexShrink:"3",

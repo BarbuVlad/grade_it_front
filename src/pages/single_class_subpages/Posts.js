@@ -58,8 +58,9 @@ const Posts = () => {
         {
            (typeof posts === "object") ? 
            <List>
-           {posts.map((post)=>(
+           {posts.map((post, index)=>(
                <Post
+               key={index}
                post={post}
                inClassPost={true}
                handleRefresh={handleRefresh}
