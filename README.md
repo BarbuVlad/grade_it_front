@@ -1,7 +1,7 @@
 ## About this repository 
 This repo is a project done in ReactJS, it represents the front-end part of a larger web aplication: 
 **GradeIt** (an **LMS** system for managing and testing students). 
-The server(**backend**) part can be found here: https://github.com/BarbuVlad/Grade_it_server
+The server(**backend**) part can be found here in the parent directory.
 To learn more about this web aplication/system: (TO BE ADDED)
 
 ## Available Scripts
