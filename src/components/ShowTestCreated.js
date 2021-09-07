@@ -80,7 +80,8 @@ const ShowTestCreated = () => {
         dispatch(resetAnswers());
         dispatch(setAnswers(testQuestions[indexEditQuestion].answersList));
         //remove
-        dispatch(editQuestion(indexEditQuestion));
+        //dispatch(editQuestion(indexEditQuestion));
+        dispatch(removeQuestion({'index':indexEditQuestion}));
         setOpenEditQuestion(false);
     }
     

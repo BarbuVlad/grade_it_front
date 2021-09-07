@@ -97,7 +97,7 @@ const Layout = ({children}) => {
                            <b> Classes</b>
                         </Button>
 
-                        <Button
+                        {/* <Button
                         disableElevation
                         color="secondary"
                         variant="outlined"
@@ -106,7 +106,7 @@ const Layout = ({children}) => {
                         style={{marginRight:25}}
                         >
                            <b> Profile and settings </b>
-                        </Button>
+                        </Button> */}
                     </div>
                     <Button
                         variant="outlined"

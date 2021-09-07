@@ -69,7 +69,7 @@ const ScheduledTestCard = ({item}) => {
         history.push(location.pathname+`/manage/${item["id_test"]}`);
     }
 
-    const handleSetSchedule = async (action="block") => {
+    const handleSetSchedule = async () => {
         //console.log(dateStart, "-",dateEnd," id:",item);
         // return
         const fetch_set_schedule = async () => {
@@ -84,6 +84,32 @@ const ScheduledTestCard = ({item}) => {
             if (data["code"] == 0){
                 setOpenScheduleSnackbar(true);
                 setScheduleTextSnackbar("Schedule was set!");
+                setScheduleSuccessSnackbar(true);
+            } else {
+                setOpenScheduleSnackbar(true);
+                setScheduleTextSnackbar(data["message"]);
+                setScheduleSuccessSnackbar(false);
+            }
+      }
+      fetch_set_schedule();
+      //setOpenBlock(false);
+      //handleCloseMenu();
+    };
+    const handleReSetSchedule = async () => {
+        //console.log(dateStart, "-",dateEnd," id:",item);
+        // return
+        const fetch_set_schedule = async () => {
+            const schedule_fetch = await fetch(`http://192.168.206.129:5000/classes/reset_test_schedule`,{
+                method: 'POST',
+                headers:{"Content-Type": "application/json",
+                        "x-auth-token": localStorage.getItem("token"),
+                        "x-auth-token-class": localStorage.getItem("token_class")},
+                body: JSON.stringify({"startDate":dateStart, "endDate":dateEnd, "testId":item["id_test"]})
+                });
+            const data = await schedule_fetch.json();
+            if (data["code"] == 0){
+                setOpenScheduleSnackbar(true);
+                setScheduleTextSnackbar("Schedule was re-set!");
                 setScheduleSuccessSnackbar(true);
             } else {
                 setOpenScheduleSnackbar(true);
@@ -304,7 +330,7 @@ default:
                     variant="contained" 
                     color="secondary"
                     className={classes.btn}
-                    onClick={handleSetSchedule}
+                    onClick={handleReSetSchedule}
                     // size="large"
                     >
                         re-Set date

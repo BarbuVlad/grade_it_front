@@ -10,8 +10,8 @@ const useStyles = makeStyles( (theme) => {
             minHeight: "100vh",
             alignItems:"felx-start",
             justifyContent:"center",
-            paddingLeft:"2em",
-            paddingRight:"2em",
+            paddingLeft:"5em",
+            paddingRight:"5em",
 
         },
         item_right:{
